@@ -11,6 +11,7 @@ def main():
     parser.add_argument("--prefix", type=str, default="page", help="Prefix for output files")
     parser.add_argument("--no-cut-line", action='store_true', help="Disable cut lines around cards")
     parser.add_argument("--dpi", type=int, default=300, help="DPI for output images")
+    parser.add_argument("--verbose", action='store_true', help="Enable verbose output")
     args = parser.parse_args()
 
     dpi = args.dpi
@@ -49,9 +50,6 @@ def main():
     # Create output directory if it doesn't exist
     os.makedirs(args.output, exist_ok=True)
 
-    # create a surface with opacity for the paper
-    paper_surface = pygame.Surface((int(paper_size[0]), int(paper_size[1])), pygame.SRCALPHA)
-
     cards_per_row = int((paper_size[0] - args.padding) // (card_size[0] + args.padding))
     cards_per_col = int((paper_size[1] - args.padding) // (card_size[1] + args.padding))
     cards_per_page = cards_per_row * cards_per_col
@@ -65,12 +63,17 @@ def main():
     total_pages = (len(card_images) + cards_per_page - 1) // cards_per_page
 
     for page_num in range(total_pages):
+        # create a surface with opacity for the paper
+        paper_surface = pygame.Surface((int(paper_size[0]), int(paper_size[1])), pygame.SRCALPHA)
+
         for i in range(cards_per_page):
             card_index = page_num * cards_per_page + i
             if card_index >= len(card_images):
                 break
             
             card_image_path = os.path.join(args.input, card_images[card_index])
+            if args.verbose:
+                print(f"Loading card image: {card_image_path}")
             card_image = pygame.image.load(card_image_path)
             card_image = pygame.transform.scale(card_image, (int(card_size[0]), int(card_size[1])))
 
@@ -89,7 +92,10 @@ def main():
 
         output_path = os.path.join(args.output, f"{args.prefix}_{page_num + 1}.png")
         pygame.image.save(paper_surface, output_path)
-        print(f"Saved: {output_path}")
+        if args.verbose:
+            print(f"Saved: {output_path}")
+    
+    print(f"Total pages created: {total_pages}\ncards per page: {cards_per_page} \nsaved to {args.output}")
 
     pygame.quit()
 

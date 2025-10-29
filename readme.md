@@ -33,6 +33,7 @@ python cardlayouter.py --input <input_dir> --output <output_dir> [options]
 - `--prefix`: Prefix for output files (default: page)
 - `--no-cut-line`: Disable cut lines around cards
 - `--dpi`: DPI for output images (default: 300)
+- `--verbose`: Enable verbose output
 
 ### How to Use
 1. Place your card images in a folder (e.g., `cards/`).
