@@ -82,13 +82,13 @@ def main():
             x = args.padding + col * (card_size[0] + args.padding)
             y = args.padding + row * (card_size[1] + args.padding)
 
-            paper_surface.blit(card_image, (x, y))
-
             if not args.no_cut_line:
                 line_color = (0, 0, 0)
                 line_width = 1
                 # Draw cut lines
-                pygame.draw.rect(paper_surface, line_color, (x, y, card_size[0] + 10, card_size[1] + 10), line_width)
+                pygame.draw.rect(paper_surface, line_color, (x, y, card_size[0], card_size[1]), line_width)
+
+            paper_surface.blit(card_image, (x, y))
 
         output_path = os.path.join(args.output, f"{args.prefix}_{page_num + 1}.png")
         pygame.image.save(paper_surface, output_path)
