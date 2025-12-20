@@ -34,12 +34,13 @@ python cardlayouter.py --input <input_dir> --output <output_dir> [options]
 - `--no-cut-line`: Disable cut lines around cards
 - `--dpi`: DPI for output images (default: 300)
 - `--verbose`: Enable verbose output
+- `--bleed`: Bleed size in pixels (default: 10px)
 
 ### How to Use
 1. Place your card images in a folder (e.g., `cards/`).
 2. Run the script with the desired options. Example:
 	```bash
-	python cardlayouter.py --input cards --output pages --paper a4 --padding 20 --dpi 300
+	python cardlayouter.py --input cards --output pages --paper a4 --padding 0 --dpi 300 --bleed 10
 	```
     the only required arguments are --input and --output
     ```bash
